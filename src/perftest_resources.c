@@ -2737,7 +2737,7 @@ void ctx_set_send_reg_wqes(struct pingpong_context *ctx,
 		struct pingpong_dest *rem_dest)
 {
 	int i,j;
-	int num_of_qps = user_param->num_of_qps;
+	int num_of_qps = (user_param->tst == LAT)? 1 : user_param->num_of_qps; // jwpark
 	int xrc_offset = 0;
 	uint32_t remote_qpn, remote_qkey;
 
@@ -2878,7 +2878,7 @@ void ctx_set_send_reg_wqes(struct pingpong_context *ctx,
 int ctx_set_recv_wqes(struct pingpong_context *ctx,struct perftest_parameters *user_param)
 {
 	int			i = 0,j,k;
-	int			num_of_qps = user_param->num_of_qps;
+	int			num_of_qps = (user_param->tst == LAT)? 1 : user_param->num_of_qps; // jwpark
 	struct ibv_recv_wr	*bad_wr_recv;
 	int			size_per_qp = user_param->rx_depth;
 

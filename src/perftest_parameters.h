@@ -504,6 +504,7 @@ struct perftest_parameters {
 	int				use_ooo;
 	int                             vlan_en;
 	uint32_t			vlan_pcp;
+	int				nr_clients;
 	void 				(*print_eth_func)(void*);
 
 };
