@@ -2896,7 +2896,8 @@ int ctx_set_recv_wqes(struct pingpong_context *ctx,struct perftest_parameters *u
 		i = 1;
 		num_of_qps = 1;
 	}
-	for (k = 0; i < user_param->num_of_qps; i++,k++) {
+	//for (k = 0; i < user_param->num_of_qps; i++,k++) {
+	for (k = 0; i < num_of_qps; i++,k++) { //jwpark
 		if (!user_param->mr_per_qp) {
 			ctx->recv_sge_list[i].addr  = (uintptr_t)ctx->buf[0] +
 				(num_of_qps + k) * ctx->send_qp_buff_size;
