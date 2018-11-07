@@ -564,9 +564,6 @@ void usage_raw_ethernet(TestType tst)
 	printf("      --vlan_pcp ");
 	printf(" specify vlan_pcp value for vlan tag, 0~7. 8 means different vlan_pcp for each packet\n");
 
-	printf("	  --nr_clients "); // jwpark
-	printf(" specify the number of clients for connection\n"); // jwpark
-
 	if (tst != FS_RATE) {
 		printf("  -P, --client ");
 		printf(" choose client side for the current machine (--server/--client must be selected)\n");
@@ -692,7 +689,6 @@ static void init_perftest_params(struct perftest_parameters *user_param)
 	user_param->reply_every		= 1;
 	user_param->vlan_en             = OFF;
 	user_param->vlan_pcp		= 1;
-	user_param->nr_clients		= 1; // jwpark
 	user_param->print_eth_func 	= &print_ethernet_header;
 
 	if (user_param->tst == LAT) {
@@ -1808,7 +1804,6 @@ int parser(struct perftest_parameters *user_param,char *argv[], int argc)
 	static int use_ooo_flag = 0;
 	static int vlan_en = 0;
 	static int vlan_pcp_flag = 0;
-	static int nr_clients = 0;
 
 	char *server_ip = NULL;
 	char *client_ip = NULL;
@@ -1934,7 +1929,6 @@ int parser(struct perftest_parameters *user_param,char *argv[], int argc)
 			{ .name = "perform_warm_up",	.has_arg = 0, .flag = &perform_warm_up_flag, .val = 1},
 			{ .name = "vlan_en",            .has_arg = 0, .flag = &vlan_en, .val = 1 },
 			{ .name = "vlan_pcp",		.has_arg = 1, .flag = &vlan_pcp_flag, .val = 1 },
-			{ .name = "nr_clients",		.has_arg = 1, .flag = &nr_clients, .val = 1 }, //jwpark
 
 			#if defined HAVE_OOO_ATTR || defined HAVE_EXP_OOO_ATTR
 			{ .name = "use_ooo",		.has_arg = 0, .flag = &use_ooo_flag, .val = 1},
@@ -1969,7 +1963,7 @@ int parser(struct perftest_parameters *user_param,char *argv[], int argc)
 				  user_param->use_gid_user = 1; break;
 			case 'c': change_conn_type(&user_param->connection_type,user_param->verb,optarg); break;
 			case 'q': 
-#if 0
+#if 0 //jwpark
 					  if (user_param->tst != BW) {
 					fprintf(stderr," Multiple QPs only available on bw tests\n");
 					return 1;
@@ -2389,9 +2383,6 @@ int parser(struct perftest_parameters *user_param,char *argv[], int argc)
 						return FAILURE;
 					}
 					vlan_pcp_flag = 0;
-				}
-				if (nr_clients) { // jwpark
-					user_param->nr_clients = strtol(optarg, NULL, 0);
 				}
 				break;
 
